@@ -1,0 +1,24 @@
+<nav class="navbar navbar-dark bg-dark fixed-top p-0 menu">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Hack the blog</a>
+    <div class="dropdown">
+      <button
+        type="button"
+        class="btn mt-1 btn-menu dropdown-toggle p-1 mb-1"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Menu
+      </button>
+      <ul class="dropdown-menu dropdown-menu-top">
+        <li><a class="dropdown-item" href="/comentarios">Comentarios</a></li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a class="dropdown-item" href="/admin">Administracion</a></li>
+        <li><hr class="dropdown-divider" /></li>
+        <% if (user) { %>
+        <li><a class="dropdown-item mt-2" href="/logout">Logout</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
