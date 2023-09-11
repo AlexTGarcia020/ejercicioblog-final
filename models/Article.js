@@ -20,12 +20,19 @@ class Article extends Model {
           type: DataTypes.STRING,
           allowNull: true,
         },
+        authorID: {
+          type: DataTypes.BIGINT.UNSIGNED,
+          allowNull: false
+        }
       },
       {
         sequelize,
         modelName: "article",
+        tableName: "article",
       },
     );
+
+    Article.belongsTo(Author, { foreignKey: "authorID" });
 
     return Article;
   }

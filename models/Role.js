@@ -10,8 +10,8 @@ class Role extends Model {
           autoIncrement: true,
           allowNull: false,
         },
-        rolname: {
-          type: DataTypes.STRING,
+        rolID: {
+          type: DataTypes.BIGINT.UNSIGNED,
           allowNull: false,
         },
       },

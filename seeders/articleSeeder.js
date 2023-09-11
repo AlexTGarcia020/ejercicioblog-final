@@ -30,7 +30,7 @@ module.exports = async () => {
     articles.push({
       title: faker.lorem.sentence(5),
       content: faker.lorem.paragraphs(),
-      authorId: randomAuthor.id,
+      authorID: randomAuthor.id,
     });
   }
 

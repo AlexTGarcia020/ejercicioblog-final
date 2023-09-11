@@ -11,18 +11,22 @@ const sequelize = new Sequelize(
   },
 );
 
+console.log("Sequelize se ha inicializado correctamente."); 
+
 const Role = require("./Role");
 const Comment = require("./Comment");
-const Article = require("./Article");
 const Author = require("./Author");
+const Article = require("./Article");
 
-Comment.initModel(sequelize);
-Article.initModel(sequelize);
-Author.initModel(sequelize);
 Role.initModel(sequelize);
+Author.initModel(sequelize);
+Article.initModel(sequelize);
+Comment.initModel(sequelize);
 
 Author.belongsTo(Role, { foreignKey: "rolID" });
 Role.hasMany(Author, { foreignKey: "rolID" });
+Author.hasMany(Article, { foreignKey: "authorID" });
+Article.belongsTo(Author, { foreignKey: "authorID" });
 
 Article.hasMany(Comment);
 Comment.belongsTo(Article);

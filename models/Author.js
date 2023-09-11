@@ -4,6 +4,7 @@ const Role = require("./Role");
 
 class Author extends Model {
   static initModel(sequelize) {
+    console.log("Inicializando modelo Author...");
     this.init(
       {
         id: {
@@ -24,22 +25,26 @@ class Author extends Model {
           type: DataTypes.STRING,
         },
         rolID: {
-          type: DataTypes.INTEGER,
+          type: DataTypes.BIGINT.UNSIGNED,
         },
       },
       {
         sequelize,
         modelName: "Author",
-      },
+      }
     );
 
-    Author.belongsTo(Role, { foreignKey: "roleId" });
+    
+    Author.belongsTo(Role, { foreignKey: "rolID" });
 
     Author.addHook("beforeCreate", async (author, options) => {
-      console.log(author);
+      console.log("BeforeCreate hook ejecutado para Author."); 
+      console.log(author); 
       const hashedPassword = await bcrypt.hash(author.password, 10);
       author.password = hashedPassword;
     });
+
+    console.log("Modelo Author inicializado con éxito.");
     return Author;
   }
 }
