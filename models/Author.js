@@ -27,6 +27,9 @@ class Author extends Model {
         rolID: {
           type: DataTypes.BIGINT.UNSIGNED,
         },
+        authorID: {
+          type: DataTypes.BIGINT.UNSIGNED,
+        }
       },
       {
         sequelize,

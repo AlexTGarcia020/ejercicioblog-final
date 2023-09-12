@@ -1,14 +1,28 @@
 const { Article, Author } = require("../models");
 
 async function showHome(req, res) {
-  const articles = await Article.findAll({
-    include: { all: true },
-    order: [["updatedAt", "ASC"]],
-  });
-  if (Author.rolID < 3) {
-    return res.redirect("/login");
+  try {
+    console.log("Antes de la consulta a la base de datos");
+    const articles = await Article.findAll({
+      include: { model: Author },
+      order: [["updatedAt", "ASC"]],
+    });
+
+    const user = req.session.user;
+
+    console.log("Después de la consulta a la base de datos");
+
+    if (user && user.rolID < 4) {
+      console.log("Redirigiendo a /login");
+      return res.redirect("/login");
+    }
+
+    console.log("Renderizando la vista 'home'");
+    res.render("home", { articles, userData: false });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al cargar la página de inicio.");
   }
-  res.render("home", { articles, userData: false });
 }
 
 async function showContact(req, res) {
@@ -20,12 +34,25 @@ async function showAboutUs(req, res) {
 }
 
 async function showArticle(req, res) {
-  const articles = await Article.findByPk();
-  if (Author.rolID < 3) {
-    return res.redirect("/login");
+  try {
+    const articleId = req.params.id;
+    const article = await Article.findByPk(articleId, {
+      include: Author, 
+    });
+
+    const user = req.session.user;
+
+    if (!article) {
+      return res.status(404).send("Artículo no encontrado.");
+    }
+
+    res.render("article", { article, user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al cargar el artículo.");
   }
-  res.render("article", { articles });
 }
+
 async function showLogin(req, res) {
   const errorMessage = req.flash("error");
   res.render("login", { message: errorMessage });
